@@ -12,7 +12,7 @@ add wave -radix decimal coefficient
 add wave -radix decimal prev_result
 add wave -radix decimal result 
 
-run 1200ns
+run 1600ns
 
 view signals wave
 wave zoom full

@@ -18,7 +18,7 @@ architecture fir_tap_tb_arch of fir_tap_tb is
   -- Constant declarations
   constant DATA_WIDTH : positive := 4;
   constant COEF_WIDTH : positive := 4;
-  constant TESTS_N    : positive := 11;      -- Number of input data points
+  constant TESTS_N    : positive := 15;      -- Number of input data points (11 originally)
   constant DELAY      : time     := 100 ns;  -- Time between inputs
 
   -- Component declarations
@@ -49,7 +49,12 @@ architecture fir_tap_tb_arch of fir_tap_tb is
                                             "1101",
                                             "1101",
                                             "1101",
-                                            "1101");
+                                            "1101",
+					    "1101", --new
+					    "0111",
+					    "0111",
+					    "0111");
+
 
   type coefficient_array_type is array (0 to TESTS_N-1) of std_logic_vector(DATA_WIDTH-1 downto 0);
   constant COEFFICIENT_ARRAY : coefficient_array_type := ("0000",
@@ -62,7 +67,11 @@ architecture fir_tap_tb_arch of fir_tap_tb is
                                                           "0011",
                                                           "0000",
                                                           "1110",
-                                                          "1110");
+                                                          "1110",
+							  "1101", --new
+							  "0111",
+							  "0111",
+							  "0111");
 
   type prev_result_array_type is array (0 to TESTS_N-1) of std_logic_vector(DATA_WIDTH+COEF_WIDTH-2 downto 0);
   constant PREV_RESULT_ARRAY : prev_result_array_type := ("0000000",
@@ -75,7 +84,11 @@ architecture fir_tap_tb_arch of fir_tap_tb is
                                                           "0000111",
                                                           "1111110",
                                                           "0000000",
-                                                          "1111110");
+                                                          "1111110",
+							  "0000000", --new
+							  "0000000",
+						 	  "0100000",
+							  "1000001");
 
   type result_array_type is array (0 to TESTS_N-1) of std_logic_vector(DATA_WIDTH+COEF_WIDTH-2 downto 0);
   constant RESULT_ARRAY : result_array_type := ("0000000",
@@ -88,8 +101,11 @@ architecture fir_tap_tb_arch of fir_tap_tb is
                                                 "1111110",
                                                 "1111110",
                                                 "0000110",
-                                                "0000100");
-
+                                                "0000100",
+						"0101001", --new
+						"0110001",
+						"-------",
+						"-------");
 begin
 
   -- Component instantiation

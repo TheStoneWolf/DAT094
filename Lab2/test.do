@@ -1,4 +1,4 @@
-#restart -f -nowave
+restart -f -nowave
 vsim -t ns test
 
 add wave -color yellow in_data
