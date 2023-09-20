@@ -20,20 +20,39 @@ architecture fsm2_arch of fsm2 is
 	signal cur_state : state_type;
 	signal next_state: state_type;
 
+
 begin
 
 	-- next state calculation
-	next_state_proc : process (cur_state, enable, spi_clk)
+	next_state_proc : process (enable, spi_clk)
 	begin
 		next_state <= cur_state;
-		--case cur_state is
-			--when idle =>
-				
-			--when shouting =>
-				--if rising_edge(spi_clk) then
-					
-				--end if;
-		--end case;
+		case cur_state is
+			when idle =>
+				if enable = '1' then
+					next_state <= send_channel;
+				end if;
+			when send_channel =>
+				if rising_edge(spi_clk) then
+					next_state <= send_dummy;
+				end if;
+			when send_dummy =>
+				if rising_edge(spi_clk) then
+					next_state <= send_gain;
+				end if;
+			when send_gain =>
+				if rising_edge(spi_clk) then
+					next_state <= send_shutdown;
+				end if;
+			when send_shutdown =>
+				if rising_edge(spi_clk) then
+					next_state <= send_data;
+				end if;
+			when send_data =>
+				if rising_edge(spi_clk) and done = '1' then
+					next_state <= idle;
+				end if;
+		end case;
 	end process;
 
 	-- State transistion
