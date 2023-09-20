@@ -19,6 +19,7 @@ architecture arch of fsm1_tb is
   -- 
   constant THE_WIDTH : natural                              := 12;
   constant TESTVEC   : std_logic_vector(THE_WIDTH downto 1) := "101001011010";
+  --constant SPI_PERIOD : natural				    := 10; --The period is equal to 10 clock cycles
 
   -- component declarations
   -- 
@@ -26,10 +27,10 @@ architecture arch of fsm1_tb is
     generic (WIDTH : natural range 1 to 16);
     port (d      : in  std_logic_vector(width - 1 downto 0);
           clk    : in  std_logic;
-          enable : in  std_logic;
           reset  : in  std_logic;
           load   : in  std_logic;
           start  : in  std_logic;
+	  spi_clk : in std_logic;
           shout  : out std_logic;
           done   : out std_logic);
   end component fsm1;
@@ -38,10 +39,10 @@ architecture arch of fsm1_tb is
   -- 
   signal d      : std_logic_vector(THE_WIDTH downto 1);
   signal clk    : std_logic := '1';
-  signal enable : std_logic;
   signal reset  : std_logic;
   signal load   : std_logic;
   signal start  : std_logic;
+  signal spi_clk: std_logic := '0';
   signal shout  : std_logic;
   signal done   : std_logic;
 
@@ -51,10 +52,10 @@ begin
     generic map (WIDTH => THE_WIDTH)
     port map (d      => d,
               clk    => clk,
-              enable => enable,
               reset  => reset,
               load   => load,
               start  => start,
+	      spi_clk => spi_clk,
               shout  => shout,
               done   => done);
 
@@ -64,15 +65,18 @@ begin
     wait for 5 ns;
     clk <= not(clk);
   end process clk_proc;
+  
+  -- SPI generation
+  spi_clk <= not spi_clk after 5*10 ns;
 
   -- enable generation 
-  enable_proc : process
-  begin
-    enable <= '1';
-    wait for 10 ns;
-    enable <= '0';
-    wait for 490 ns;
-  end process enable_proc;
+  --enable_proc : process
+  --begin
+    --enable <= '1';
+    --wait for 10 ns;
+    --enable <= '0';
+    --wait for 490 ns;
+  --end process enable_proc;
 
   d <= TESTVEC;
 
@@ -97,7 +101,7 @@ begin
     assert (done = '1')
       report "done not set"
       severity warning;
-    assert (s = '0')
+    assert (spi_clk = '0')
       report "s not 0"
       severity warning;
 
