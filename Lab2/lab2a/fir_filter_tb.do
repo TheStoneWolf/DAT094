@@ -1,4 +1,4 @@
-#restart -f -nowave
+restart -f -nowave
 config wave -signalnamewidth 1
 
 add wave clk
