@@ -42,7 +42,6 @@ begin
 		case cur_state is 
 			when idle =>
 				shout <= '0';
-				done <= '0';
 				if load = '1' then
 					done <= '0';
 				end if;
@@ -55,17 +54,17 @@ begin
 	end process;
 
 	-- next state calculation
-	next_state_proc : process (cur_state, start, spi_clk)
+	next_state_proc : process (cur_state, spi_clk)
 	begin
 		next_state <= cur_state;
 		case cur_state is
 			when idle =>
-				if start = '1' and rising_edge(spi_clk) then
+				if start = '1' and falling_edge(spi_clk) then
 					next_state <= shouting;
 					count <= width-1;
 				end if;
 			when shouting =>
-				if rising_edge(spi_clk) then
+				if falling_edge(spi_clk) then
 					if count = 0 then
 						count <= width-1;
 						next_state <= idle;
