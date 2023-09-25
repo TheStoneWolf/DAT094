@@ -16,9 +16,17 @@ add wave dac_cs
 add wave dac_sck
 add wave dac_sdi
 add wave -divider "DUT Internal Signals"
-add wave -color yellow dac_controller_inst/counter
-add wave -color yellow dac_controller_inst/current_state
-add wave -color yellow dac_controller_inst/next_state
+add wave -divider FSM1
+add wave -color yellow dac_controller_inst/fsm1_inst/cur_state
+add wave -color yellow dac_controller_inst/fsm1_inst/next_state
+add wave -color yellow dac_controller_inst/shout_1
+add wave -color yellow dac_controller_inst/fsm1_inst/count
+add wave -color yellow dac_controller_inst/done
+
+add wave -divider FSM2
+add wave -color purple dac_controller_inst/fsm2_inst/cur_state
+add wave -color purple dac_controller_inst/fsm2_inst/next_state
+add wave -color purple dac_controller_inst/shout_2
 
 run 2000ns
 

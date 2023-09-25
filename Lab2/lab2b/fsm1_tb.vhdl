@@ -30,7 +30,7 @@ architecture arch of fsm1_tb is
           reset  : in  std_logic;
           load   : in  std_logic;
           start  : in  std_logic;
-	  spi_clk : in std_logic;
+	  spi_comp: in std_logic;
           shout  : out std_logic;
           done   : out std_logic);
   end component fsm1;
@@ -42,7 +42,7 @@ architecture arch of fsm1_tb is
   signal reset  : std_logic;
   signal load   : std_logic;
   signal start  : std_logic;
-  signal spi_clk: std_logic := '0';
+  signal spi_comp: std_logic := '0';
   signal shout  : std_logic;
   signal done   : std_logic;
 
@@ -55,7 +55,7 @@ begin
               reset  => reset,
               load   => load,
               start  => start,
-	      spi_clk => spi_clk,
+	      spi_comp => spi_comp,
               shout  => shout,
               done   => done);
 
@@ -67,16 +67,13 @@ begin
   end process clk_proc;
   
   -- SPI generation
-  spi_clk <= not spi_clk after 5*10 ns;
-
-  -- enable generation 
-  --enable_proc : process
-  --begin
-    --enable <= '1';
-    --wait for 10 ns;
-    --enable <= '0';
-    --wait for 490 ns;
-  --end process enable_proc;
+  spi_proc : process
+  begin
+    spi_comp <= '0';
+    wait for 90 ns;
+    spi_comp <= '1';
+    wait for 10 ns;
+  end process;
 
   d <= TESTVEC;
 
@@ -98,22 +95,21 @@ begin
     assert (reset = '1')
       report "no reset"
       severity warning;
-    assert (done = '1')
-      report "done not set"
-      severity warning;
-    assert (spi_clk = '0')
-      report "s not 0"
-      severity warning;
 
     wait for 310 ns;
     assert (load = '1')
       report "no load"
       severity warning;
 
-    wait for 500 ns;
+    wait for 370 ns;
     assert (start = '1')
       report "no start"
       severity warning;
+
+    for idx in 11 to 0 loop
+      wait until falling_edge(spi_comp);
+      assert shout = TESTVEC(idx) report "Error in shout bit " & integer'image(idx) severity warning;
+    end loop;
 
     wait for 10000 ns;
 

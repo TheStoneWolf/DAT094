@@ -16,12 +16,12 @@ add wave shout
 add wave done
 
 add wave -divider Internal
-add wave fsm1_inst/next_state
-add wave fsm1_inst/cur_state
-add wave fsm1_inst/count
-add wave fsm1_inst/spi_clk
-add wave fsm1_inst/input_buffer
+add wave -color yellow fsm1_inst/next_state
+add wave -color yellow fsm1_inst/cur_state
+add wave -color yellow fsm1_inst/count
+add wave -color yellow fsm1_inst/spi_comp
+add wave -color yellow fsm1_inst/input_buffer
 
-run 6000ns
+run 16000ns
 
 view signals wave

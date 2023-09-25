@@ -26,19 +26,19 @@ architecture dac_controller_tb_arch of dac_controller_tb is
   constant TEST_DATA     : std_logic_vector(11 downto 0) := "101110001010";
 
   component dac_controller is
-    generic (CLK_FREQ : real := 100.0e6;
-             SPI_FREQ : real := 20.0e6);
-    port (clk      : in  std_logic;
-          rst      : in  std_logic;
-          enable   : in  std_logic;
-          channel  : in  std_logic;
-          gain     : in  std_logic;
-          shutdown : in  std_logic;
-          data     : in  std_logic_vector(11 downto 0);
-          busy     : out std_logic;
-          dac_cs   : out std_logic;
-          dac_sck  : out std_logic;
-          dac_sdi  : out std_logic);
+    generic(	CLK_FREQ : real := 100.0e6;
+           	SPI_FREQ : real := 20.0e6);
+  	port (	clk      : in  std_logic;
+        	rst      : in  std_logic;
+        	enable   : in  std_logic;
+        	channel  : in  std_logic;
+        	gain     : in  std_logic;
+        	shutdown : in  std_logic;
+        	data     : in  std_logic_vector(11 downto 0);
+        	busy     : out std_logic;
+        	dac_cs   : out std_logic;
+        	dac_sck  : out std_logic;
+        	dac_sdi  : out std_logic);
   end component dac_controller;
 
   signal clk      : std_logic := '0';
