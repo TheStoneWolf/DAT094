@@ -1,10 +1,3 @@
--- DAT094, lab2b
--- 
--- Initial test bench for fsm1. 
--- Intended to be extended by students.
---
--- / ljs Sep 11 2023 
-
 library ieee;
 
 use ieee.std_logic_1164.all;

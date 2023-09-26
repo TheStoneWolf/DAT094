@@ -1,12 +1,4 @@
 -- DAT094 - Lab 2b
---
--- Testbench for the simplified DAC controller, vith tests included to verify
--- the timing of the DAC controller as specified by datasheet for the Microchip
--- MCP4822. The LDAC pin is removed as a simplification. 
---
--- Author:  Erik Börjeson
--- Date:    2023-09-11
--- Version: 1.0
 library ieee;
 use ieee.std_logic_1164.all;
 

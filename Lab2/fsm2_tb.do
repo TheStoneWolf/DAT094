@@ -1,5 +1,3 @@
--- do file for fsm2_tb / Sj Sep 20 2023 
-
 restart -f -nowave
 config wave -signalnamewidth 1
 
