@@ -57,6 +57,7 @@ begin
         			dac_cs  <= '1';
 				load <= '0';
 				start <= '0';
+				shout <= '0';
       			when send_channel =>
         			busy    <= '1';
         			dac_cs  <= '0';
