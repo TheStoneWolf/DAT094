@@ -1,5 +1,3 @@
--- fsm1 for shifting out the data bits. / ljs Sep 13 2023
-
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
@@ -9,7 +7,7 @@ entity fsm1 is
   port (d      : in  std_logic_vector(width - 1 downto 0);
         clk    : in  std_logic;
         reset  : in  std_logic;
-        load   : in  std_logic; --Load becomes '1' one spi cycle before start becomes '1'
+        load   : in  std_logic; --Load becomes '1' one SPI cycle before start becomes '1'
         start  : in  std_logic;
 	spi_comp: in std_logic; --True if dac_slk will fall in one system clock cycle
         shout  : out std_logic; --Data output
@@ -47,10 +45,11 @@ begin
 					count <= width-1;
 				end if;
 			when shouting =>
-				--Split into two since decrementing somehow happens before input_buffer(count) gets resolved otherwise
+				--Split into two to prevent decrementing from happening when first switching to 'shouting'
 				if falling_edge(spi_comp) or cur_state'event then
 					shout <= input_buffer(count);
 				end if;
+				--spi_comp rises one clk period before the state becomes shouting for the first time
 				if rising_edge(spi_comp) then
 					if count = 0 then
 						done <= '1';
